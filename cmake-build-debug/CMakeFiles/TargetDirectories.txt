@@ -1,0 +1,3 @@
+/home/diwash/Documents/1_HPCAssignment/cmake-build-debug/CMakeFiles/1_HPCAssignment.dir
+/home/diwash/Documents/1_HPCAssignment/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/diwash/Documents/1_HPCAssignment/cmake-build-debug/CMakeFiles/rebuild_cache.dir
