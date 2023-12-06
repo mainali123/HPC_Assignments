@@ -49,12 +49,6 @@ cmake_ninja_workdir = /home/diwash/Documents/1_HPCAssignment/cmake-build-debug/
 
 build cmake_object_order_depends_target_1_HPCAssignment: phony || CMakeFiles/1_HPCAssignment.dir
 
-build CMakeFiles/1_HPCAssignment.dir/Task_1/performanceText.c.o: C_COMPILER__1_HPCAssignment_unscanned_Debug /home/diwash/Documents/1_HPCAssignment/Task_1/performanceText.c || cmake_object_order_depends_target_1_HPCAssignment
-  DEP_FILE = CMakeFiles/1_HPCAssignment.dir/Task_1/performanceText.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
-  OBJECT_FILE_DIR = CMakeFiles/1_HPCAssignment.dir/Task_1
-
 build CMakeFiles/1_HPCAssignment.dir/Task_1/CrackAZ99.c.o: C_COMPILER__1_HPCAssignment_unscanned_Debug /home/diwash/Documents/1_HPCAssignment/Task_1/CrackAZ99.c || cmake_object_order_depends_target_1_HPCAssignment
   DEP_FILE = CMakeFiles/1_HPCAssignment.dir/Task_1/CrackAZ99.c.o.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
@@ -67,6 +61,12 @@ build CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o: C_COMPILER__1_HPC
   OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
   OBJECT_FILE_DIR = CMakeFiles/1_HPCAssignment.dir/Task_1
 
+build CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o: C_COMPILER__1_HPCAssignment_unscanned_Debug /home/diwash/Documents/1_HPCAssignment/Task_1/Crack.c || cmake_object_order_depends_target_1_HPCAssignment
+  DEP_FILE = CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
+  OBJECT_FILE_DIR = CMakeFiles/1_HPCAssignment.dir/Task_1
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target 1_HPCAssignment
@@ -75,7 +75,7 @@ build CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o: C_COMPILER__1_HPC
 #############################################
 # Link the executable 1_HPCAssignment
 
-build 1_HPCAssignment: C_EXECUTABLE_LINKER__1_HPCAssignment_Debug CMakeFiles/1_HPCAssignment.dir/Task_1/performanceText.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/CrackAZ99.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o
+build 1_HPCAssignment: C_EXECUTABLE_LINKER__1_HPCAssignment_Debug CMakeFiles/1_HPCAssignment.dir/Task_1/CrackAZ99.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
   POST_BUILD = :

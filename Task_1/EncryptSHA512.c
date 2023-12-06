@@ -19,5 +19,10 @@
 
 int main(int argc, char *argv[]){
   printf("%s\n", crypt(argv[1], SALT));
+  // Exporting the encrypted password to a file
+    FILE *fp;
+    fp = fopen("encrypted.txt", "w+");
+    fprintf(fp, "%s\n", crypt(argv[1], SALT));
+    fclose(fp);
   return 0;
 }

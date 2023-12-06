@@ -44,6 +44,7 @@ void substr(char *dest, char *src, int start, int length) {
 */
 
 void crack(char *salt_and_encrypted) {
+    count = 0;
     int x, y, z;     // Loop counters
     char salt[7];    // String used in hashing the password. Need space for \0 // incase you have modified the salt value, then should modifiy the number accordingly
     char plain[7];   // The combination of letters currently being checked // Please modifiy the number when you enlarge the encrypted password.
@@ -70,6 +71,7 @@ void crack(char *salt_and_encrypted) {
 bool password_found = false;
 
 void multithreadingCracking(char *saltAndEncrypted) {
+    count = 0;
     char salt[7];
     char plain[7];
     char *enc;
@@ -98,6 +100,7 @@ void multithreadingCracking(char *saltAndEncrypted) {
 }
 
 void optimizedMultithreadingCracking(char *saltAndEncrypted) {
+    count = 0;
     char salt[7];
     char plain[7];
     char *enc;
@@ -135,31 +138,39 @@ void optimizedMultithreadingCracking(char *saltAndEncrypted) {
 
 
 int main(int argc, char *argv[]) {
+
+    FILE *fp;
+    char encryptedText[93];
+    fp = fopen("encrypted.txt", "r");
+    fscanf(fp, "%s", encryptedText);
+    fclose(fp);
+
+
     clock_t start, end;
 
-//    start = clock();
-//    crack(
-//            "$6$AS$hj8bLShgWVmWJckdZuuV9dylPHsuFnSSOIlTPa3GQRdrtyQZrtWPgivsNouxv1DGx21oSV9Z2w8ekNef.GJhl0");
-//    end = clock();
-//    double timeForNonMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
+    start = clock();
+    crack(
+            encryptedText);
+    end = clock();
+    double timeForNonMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 
-//    start = clock();
-//    multithreadingCracking(
-//            "$6$AS$hj8bLShgWVmWJckdZuuV9dylPHsuFnSSOIlTPa3GQRdrtyQZrtWPgivsNouxv1DGx21oSV9Z2w8ekNef.GJhl0");
-//    end = clock();
-//    double timeForMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
+    start = clock();
+    multithreadingCracking(
+            encryptedText);
+    end = clock();
+    double timeForMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 
     start = clock();
     optimizedMultithreadingCracking(
-            "$6$AS$hj8bLShgWVmWJckdZuuV9dylPHsuFnSSOIlTPa3GQRdrtyQZrtWPgivsNouxv1DGx21oSV9Z2w8ekNef.GJhl0");
+            encryptedText);
     end = clock();
     double timeForOptimizedMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 
-//    printf("Time taken without multithreading: %f seconds\n", timeForNonMultithreading);
-//    printf("Time taken with multithreading: %f seconds\n", timeForMultithreading);
+    printf("Time taken without multithreading: %f seconds\n", timeForNonMultithreading);
+    printf("Time taken with multithreading: %f seconds\n", timeForMultithreading);
     printf("Time taken with optimized multithreading: %f seconds\n", timeForOptimizedMultithreading);
     printf("%d solutions explored\n", count);
 
