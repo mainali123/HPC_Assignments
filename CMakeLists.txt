@@ -6,4 +6,5 @@ set(CMAKE_C_STANDARD 11)
 add_executable(1_HPCAssignment
         Task_1/CrackAZ99.c
         Task_1/EncryptSHA512.c
+        Task_2/matrixMult.c
 )

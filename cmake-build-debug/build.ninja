@@ -61,11 +61,11 @@ build CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o: C_COMPILER__1_HPC
   OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
   OBJECT_FILE_DIR = CMakeFiles/1_HPCAssignment.dir/Task_1
 
-build CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o: C_COMPILER__1_HPCAssignment_unscanned_Debug /home/diwash/Documents/1_HPCAssignment/Task_1/Crack.c || cmake_object_order_depends_target_1_HPCAssignment
-  DEP_FILE = CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o.d
+build CMakeFiles/1_HPCAssignment.dir/Task_2/matrixMult.c.o: C_COMPILER__1_HPCAssignment_unscanned_Debug /home/diwash/Documents/1_HPCAssignment/Task_2/matrixMult.c || cmake_object_order_depends_target_1_HPCAssignment
+  DEP_FILE = CMakeFiles/1_HPCAssignment.dir/Task_2/matrixMult.c.o.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
-  OBJECT_FILE_DIR = CMakeFiles/1_HPCAssignment.dir/Task_1
+  OBJECT_FILE_DIR = CMakeFiles/1_HPCAssignment.dir/Task_2
 
 
 # =============================================================================
@@ -75,7 +75,7 @@ build CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o: C_COMPILER__1_HPCAssignme
 #############################################
 # Link the executable 1_HPCAssignment
 
-build 1_HPCAssignment: C_EXECUTABLE_LINKER__1_HPCAssignment_Debug CMakeFiles/1_HPCAssignment.dir/Task_1/CrackAZ99.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/Crack.c.o
+build 1_HPCAssignment: C_EXECUTABLE_LINKER__1_HPCAssignment_Debug CMakeFiles/1_HPCAssignment.dir/Task_1/CrackAZ99.c.o CMakeFiles/1_HPCAssignment.dir/Task_1/EncryptSHA512.c.o CMakeFiles/1_HPCAssignment.dir/Task_2/matrixMult.c.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/1_HPCAssignment.dir
   POST_BUILD = :

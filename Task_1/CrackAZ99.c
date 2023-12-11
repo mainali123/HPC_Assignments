@@ -8,7 +8,6 @@
 #include <time.h>
 
 
-
 /******************************************************************************
   Demonstrates how to crack an encrypted password using a simple
   "brute force" algorithm. Works on passwords that consist only of 2 uppercase
@@ -60,7 +59,7 @@ void crack(char *salt_and_encrypted) {
                 count++;
                 if (strcmp(salt_and_encrypted, enc) == 0) {
                     printf("#%-8d%s %s \t without Multithreading \n", count, plain, enc);
-                    return;    //uncomment this line if you want to speed-up the running time, program will find you the cracked password only without exploring all possibilites
+                    return;
                 }
             }
         }
@@ -68,71 +67,30 @@ void crack(char *salt_and_encrypted) {
 }
 
 // Multithreading Cracking using OpenMP
-bool password_found = false;
-
 void multithreadingCracking(char *saltAndEncrypted) {
     count = 0;
     char salt[7];
     char plain[7];
     char *enc;
 
-    substr(salt, saltAndEncrypted, 0, 6);
+    strncpy(salt, saltAndEncrypted, 6);
+    salt[6] = '\0';
 
-#pragma omp parallel for collapse(3)
+
+#pragma omp parallel for collapse(3) shared(count) private(plain, enc)
     for (int i = 'A'; i <= 'Z'; ++i) {
         for (int j = 'A'; j <= 'Z'; ++j) {
             for (int k = 0; k <= 99; ++k) {
-                if (!password_found) {
-                    sprintf(plain, "%c%c%02d", i, j, k);
-                    enc = (char *) crypt(plain, salt);
-                    count++;
-                    if (strcmp(saltAndEncrypted, enc) == 0) {
-                        printf("#%-8d%s %s \t with Multithreading \n", count, plain, enc);
-                        password_found = true;
-                        break;
-                    }
+                snprintf(plain, sizeof(plain), "%c%c%02d", i, j, k);
+                enc = crypt(plain, salt);
+                count++;
+                if (strcmp(saltAndEncrypted, enc) == 0) {
+                    printf("%s %s \t with Multithreading \n", plain, enc);
+                    return;
+#pragma omp cancel for
                 }
             }
-            if (password_found) break;
         }
-        if (password_found) break;
-    }
-}
-
-void optimizedMultithreadingCracking(char *saltAndEncrypted) {
-    count = 0;
-    char salt[7];
-    char plain[7];
-    char *enc;
-
-    substr(salt, saltAndEncrypted, 0, 6);
-
-    password_found = false;
-
-#pragma omp parallel for collapse(2) schedule(dynamic)
-    for (int i = 'A'; i <= 'Z'; ++i) {
-        for (int j = 'A'; j <= 'Z'; ++j) {
-#pragma omp parallel for schedule(dynamic)
-            for (int k = 0; k <= 99; ++k) {
-                if (!password_found) {
-                    sprintf(plain, "%c%c%02d", i, j, k);
-                    enc = (char *) crypt(plain, salt);
-#pragma omp atomic
-                    count++;
-                    if (strcmp(saltAndEncrypted, enc) == 0) {
-#pragma omp critical
-                        {
-                            if (!password_found) {
-                                printf("#%-8d%s %s \t with Optimized Multithreading \n", count, plain, enc);
-                                password_found = true;
-                            }
-                        }
-                    }
-                }
-            }
-            if (password_found) break;
-        }
-        if (password_found) break;
     }
 }
 
@@ -145,7 +103,6 @@ int main(int argc, char *argv[]) {
     fscanf(fp, "%s", encryptedText);
     fclose(fp);
 
-
     clock_t start, end;
 
     start = clock();
@@ -156,22 +113,13 @@ int main(int argc, char *argv[]) {
 
 
     start = clock();
-    multithreadingCracking(
-            encryptedText);
+    multithreadingCracking(encryptedText);
     end = clock();
     double timeForMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 
-    start = clock();
-    optimizedMultithreadingCracking(
-            encryptedText);
-    end = clock();
-    double timeForOptimizedMultithreading = ((double) (end - start)) / CLOCKS_PER_SEC;
-
-
     printf("Time taken without multithreading: %f seconds\n", timeForNonMultithreading);
     printf("Time taken with multithreading: %f seconds\n", timeForMultithreading);
-    printf("Time taken with optimized multithreading: %f seconds\n", timeForOptimizedMultithreading);
     printf("%d solutions explored\n", count);
 
     return 0;
