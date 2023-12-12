@@ -1,47 +1,60 @@
-// Include necessary libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
 #include <time.h>
 
-// Function to perform matrix multiplication using multithreading
+// Function to perform matrix multiplication
 void matrix_multiply(double *A, double *B, double *C, int m, int n, int p) {
-    // Use OpenMP to parallelize the outer two loops
+    // Parallelize the outer two loops using OpenMP
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < p; j++) {
             double sum = 0.0;
-            // Multiply each element of the ith row of the first matrix with the jth column of the second matrix
+            // Perform the dot product of the i-th row of A and the j-th column of B
             for (int k = 0; k < n; k++) {
                 sum += A[i * n + k] * B[k * p + j];
             }
-            // Store the result in the C matrix
+            // Store the result in the i-th row and j-th column of C
             C[i * p + j] = sum;
         }
     }
 }
 
-int main() {
-    // Open the file for reading
-    FILE *file = fopen("MatData.txt", "r");
-    // Check if the file was opened successfully
+int main(int argc, char *argv[]) {
+    // Check if the correct number of command line arguments has been provided
+    if (argc != 3) {
+        printf("Usage: %s <filename> <num_threads>\n", argv[0]);
+        return 1;
+    }
+
+    // Assign the filename and the number of threads from the command line arguments
+    char *filename = argv[1];
+    int num_threads = atoi(argv[2]);
+
+    // Set the number of threads for OpenMP to use
+    omp_set_num_threads(num_threads);
+
+    // Open the input file
+    FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error opening the file.\n");
         return 1;
     }
 
-    // Open the output file for writing
+    // Open the output file
     FILE *output_file = fopen("Output.txt", "w");
-    // Check if the file was opened successfully
     if (output_file == NULL) {
         printf("Error opening the output file.\n");
         return 1;
     }
 
+    // Variable to keep track of the number of matrices read
     int matrices_read = 0;
-    // Loop until the end of the file
+
+    // Loop until the end of the file is reached
     while (!feof(file)) {
         int m, n, p;
+
         // Read the dimensions of the first matrix
         if (fscanf(file, "%d,%d", &m, &n) != 2) break;
 
@@ -53,6 +66,12 @@ int main() {
 
         // Read the dimensions of the second matrix
         if (fscanf(file, "%d,%d", &n, &p) != 2) break;
+
+        // Check if matrix multiplication is possible
+        if (m != p) {
+            printf("Error: The number of columns in the first matrix is not equal to the number of rows in the second matrix.\n");
+            return 1;
+        }
 
         // Allocate memory for the second matrix and read its elements
         double *B = (double *)malloc(n * p * sizeof(double));
@@ -76,16 +95,18 @@ int main() {
         }
         fprintf(output_file, "\n");
 
-        // Free the allocated memory
+        // Free the memory allocated for the matrices
         free(A);
         free(B);
         free(C);
 
+        // Increment the number of matrices read
         matrices_read++;
     }
 
-    // Close the files
+    // Close the input and output files
     fclose(file);
     fclose(output_file);
+
     return 0;
 }
